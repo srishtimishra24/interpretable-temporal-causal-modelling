@@ -13,10 +13,6 @@ __pycache__/
 # VS Code
 .vscode/
 
-# Generated outputs
-results/*.csv
-images/*.png
-
-# Datasets
+# Ignore raw datasets but keep documentation
 data/*
 !data/README.md
