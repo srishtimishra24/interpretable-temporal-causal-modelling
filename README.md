@@ -1,8 +1,3 @@
-You're right. You want the **actual raw Markdown file**, with the Markdown syntax visible, not a rendered/annotated version.
-
-Copy everything below directly into `README.md`:
-
-````markdown
 # Interpretable Temporal Causal Discovery using Tsetlin Machines
 
 > An interpretable framework for temporal causal discovery that combines event-based feature engineering, Tsetlin Machines, clause activation analysis, and stability selection to recover causal relationships from multivariate time-series data.
@@ -361,4 +356,3 @@ This work was completed as part of the **MSc Computing (Artificial Intelligence 
 ## License
 
 This project is released under the MIT License. See [`LICENSE`](LICENSE) for details.
-````
