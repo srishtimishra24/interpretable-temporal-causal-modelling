@@ -41,8 +41,8 @@ data/
 
 Each dataset directory contains:
 
-- `combined.csv` or `storm_data_normal.csv` — the time-series data used by the causal discovery pipeline.
-- `structure.txt` or `storm_structure.txt` — the corresponding ground-truth causal structure used for evaluation.
+- `combined.csv` or `storm_data_normal.csv` -- the time-series data used by the causal discovery pipeline.
+- `structure.txt` or `storm_structure.txt` -- the corresponding ground-truth causal structure used for evaluation.
 
 The `combined.csv` files used in this project were created by combining the corresponding preprocessed data files provided for the respective datasets.
 
