@@ -1,9 +1,16 @@
+You're right. You want the **actual raw Markdown file**, with the Markdown syntax visible, not a rendered/annotated version.
+
+Copy everything below directly into `README.md`:
+
+````markdown
 # Interpretable Temporal Causal Discovery using Tsetlin Machines
 
 > An interpretable framework for temporal causal discovery that combines event-based feature engineering, Tsetlin Machines, clause activation analysis, and stability selection to recover causal relationships from multivariate time-series data.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
+
 ![License](https://img.shields.io/badge/License-MIT-green)
+
 ![Status](https://img.shields.io/badge/Status-Research-orange)
 
 ---
@@ -16,7 +23,7 @@ This project proposes an interpretable temporal causal discovery framework based
 
 The framework was developed as part of my **MSc Computing (Artificial Intelligence and Machine Learning)** dissertation at **Imperial College London**.
 
-The repository provides a fully reproducible implementation of the proposed framework, covering the complete pipeline from data preprocessing to causal graph generation and evaluation.
+The repository provides the implementation of the proposed framework, covering the complete pipeline from data preprocessing to causal graph generation and evaluation.
 
 ---
 
@@ -26,6 +33,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/srishtimishra24/interpretable-temporal-causal-modelling.git
+
 cd interpretable-temporal-causal-modelling
 ```
 
@@ -33,14 +41,19 @@ Create a virtual environment and install the dependencies:
 
 ```bash
 python3 -m venv .venv
+
 source .venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-Run the framework:
+Run the framework through the command-line interface:
 
 ```bash
-python src/main.py
+python src/cli.py \
+--input data/Web_Activity/combined.csv \
+--output outputs/Web_Activity_final_TM.txt \
+--ground-truth data/Web_Activity/structure.txt
 ```
 
 ---
@@ -48,12 +61,13 @@ python src/main.py
 ## Features
 
 - Interpretable temporal causal discovery using Tsetlin Machines
-- Event-based representation of continuous multivariate time-series
+- Percentile-based event representation of continuous multivariate time-series
 - Automatic temporal lag generation
 - Mutual Information feature selection
 - Clause activation analysis
 - Stability selection across multiple training runs
 - Automatic causal graph construction
+- Command-line interface for fully automatic execution
 - Quantitative evaluation against established causal discovery methods
 
 ---
@@ -62,25 +76,43 @@ python src/main.py
 
 ```mermaid
 flowchart TD
+
     A[Multivariate Time-Series Data]
+
     B[Data Preprocessing]
+
     C[Event-Based Feature Generation]
+
     D[Lagged Feature Construction]
+
     E[Mutual Information Feature Selection]
+
     F[MultiClass Tsetlin Machine]
+
     G[Clause Activation Analysis]
+
     H[Stability Selection]
+
     I[Directed Causal Graph]
+
     J[Evaluation and Visualization]
 
     A --> B
+
     B --> C
+
     C --> D
+
     D --> E
+
     E --> F
+
     F --> G
+
     G --> H
+
     H --> I
+
     I --> J
 ```
 
@@ -102,19 +134,19 @@ The proposed framework consists of:
 
 ```text
 interpretable-temporal-causal-modelling/
+
 │
 ├── src/                  Source code
 ├── data/                 Dataset instructions
-├── docs/                 Documentation
 ├── images/               Generated causal graphs
-├── notebooks/            Experimental notebooks
-├── results/              Evaluation results
 ├── tests/                Unit tests
 │
 ├── README.md
 ├── requirements.txt
 └── LICENSE
 ```
+
+The datasets themselves are not included in the repository.
 
 ---
 
@@ -146,19 +178,40 @@ The datasets are **not included** in this repository.
 
 Please refer to **`data/README.md`** for instructions on obtaining and organising the datasets.
 
+The final experiments used:
+
+```text
+data/Antivirus_Activity/combined.csv
+data/Web_Activity/combined.csv
+data/Middleware_oriented_message_Activity/combined.csv
+data/Storm_Ingestion_Activity/storm_data_normal.csv
+```
+
 ---
 
 ## Usage
 
-Run the complete causal discovery pipeline:
+The framework is executed through the command-line interface.
+
+Example:
 
 ```bash
-python src/main.py
+python src/cli.py \
+--input data/Web_Activity/combined.csv \
+--output outputs/Web_Activity_final_TM.txt \
+--ground-truth data/Web_Activity/structure.txt \
+--tau 3 \
+--runs 10 \
+--stability 0.7 \
+--top-k 3 \
+--clauses 500 \
+--epochs 100
 ```
 
 The framework automatically:
 
 - Loads the selected dataset
+- Processes all variables as potential target variables
 - Generates event-based features
 - Constructs lagged temporal features
 - Performs Mutual Information feature selection
@@ -166,8 +219,19 @@ The framework automatically:
 - Performs clause activation analysis
 - Applies stability selection
 - Constructs the inferred causal graph
-- Evaluates graph recovery performance
+- Evaluates graph recovery performance when ground truth is provided
 - Saves the generated graph and evaluation results
+
+### Final Configuration
+
+The final experiments used:
+
+- Maximum temporal lag (`tau`): 3
+- Stability runs: 10
+- Stability threshold: 0.7
+- Top-K candidates per run: 3
+- Tsetlin Machine clauses: 500
+- Training epochs: 100
 
 ---
 
@@ -185,7 +249,7 @@ The framework automatically:
 
 ## Experimental Evaluation
 
-The proposed framework was evaluated on four benchmark IT monitoring datasets and compared against multiple causal discovery methods.
+The proposed framework was evaluated on four real-world IT monitoring datasets and compared against multiple causal discovery methods.
 
 ### Compared Methods
 
@@ -208,14 +272,16 @@ The proposed framework was evaluated on four benchmark IT monitoring datasets an
 
 ## Results
 
-| Dataset | Precision | Recall | F1 Score |
-|---------|----------:|-------:|---------:|
-| Antivirus | 0.030 | 0.062 | 0.041 |
-| Web Activity | 0.259 | 0.500 | 0.341 |
-| Middleware | 0.300 | 0.600 | 0.400 |
-| Storm | 0.167 | 0.333 | 0.222 |
+The final Tsetlin Machine configuration produced the following results:
 
-Detailed evaluation metrics are available in the **results/** directory.
+| Dataset | Precision | Recall | Orientation F1 | Adjacency F1 | Runtime (s) |
+|---------|----------:|-------:|---------------:|-------------:|------------:|
+| Antivirus | 0.031 | 0.062 | 0.042 | 0.190 | 241.3 |
+| Web Activity | 0.296 | 0.571 | 0.390 | 0.562 | 1677.6 |
+| Middleware | 0.333 | 0.700 | 0.452 | 0.692 | 45.2 |
+| Storm | 0.167 | 0.333 | 0.222 | 0.273 | 69.7 |
+
+The strongest performance was obtained on the Middleware dataset, while performance was substantially weaker on Antivirus. The results indicate that the effectiveness of the proposed pipeline is dataset-dependent.
 
 ---
 
@@ -235,9 +301,24 @@ The main contributions of this work are:
 
 - An interpretable temporal causal discovery framework based on Tsetlin Machines.
 - An event-based feature engineering pipeline for continuous multivariate time-series.
+- Percentile-based event transformation to avoid fixed dataset-specific thresholds.
+- Automatic temporal lag construction.
+- Mutual Information feature selection for reducing the candidate feature space.
 - A clause activation analysis strategy for identifying influential variables.
 - A stability selection procedure for improving the robustness of inferred causal relationships.
-- Comprehensive evaluation on synthetic and real-world IT monitoring datasets against established causal discovery baselines.
+- A command-line interface supporting fully automatic execution on CSV input.
+- Evaluation on four real-world IT monitoring datasets against established causal discovery baselines.
+
+---
+
+## Limitations
+
+The current framework has several limitations:
+
+- Event-based transformation can remove information about the magnitude and fine-grained variation of continuous signals.
+- Mutual Information feature selection, top-K candidate selection, and stability filtering can exclude relevant relationships before final graph construction.
+- Repeated Tsetlin Machine training for stability selection increases computational cost.
+- Performance is dataset-dependent, with substantially weaker results observed on Antivirus.
 
 ---
 
@@ -245,11 +326,14 @@ The main contributions of this work are:
 
 Potential directions for future research include:
 
-- Comparison with additional causal discovery methods such as Neural Granger Causality and TCDF.
-- Evaluation on larger benchmark datasets, including CausalRiver.
-- Adaptive lag selection.
-- Online temporal causal discovery for streaming data.
-- Continuous-valued Tsetlin Machine variants.
+- Bayesian hyperparameter optimisation
+- Alternative event and binarisation methods
+- Evaluation on additional datasets, including CausalRiver
+- Comparison with Neural Granger Causality and TCDF
+- Adaptive lag selection
+- Runtime and parallelisation improvements
+- Ablation studies of the event transformation and candidate-selection stages
+- Evaluation on a wider range of temporal causal structures
 
 ---
 
@@ -259,10 +343,10 @@ If you use this repository in your research, please cite:
 
 ```bibtex
 @mastersthesis{mishra2026,
-  author = {Srishti Mishra},
-  title = {Interpretable Temporal Causal Discovery using Tsetlin Machines},
-  school = {Imperial College London},
-  year = {2026}
+  author  = {Srishti Mishra},
+  title   = {Interpretable Temporal Causal Discovery using Tsetlin Machines},
+  school  = {Imperial College London},
+  year    = {2026}
 }
 ```
 
@@ -271,3 +355,10 @@ If you use this repository in your research, please cite:
 ## Acknowledgements
 
 This work was completed as part of the **MSc Computing (Artificial Intelligence and Machine Learning)** programme at **Imperial College London** under the supervision of **Dr. Ce Guo** and **Prof. Wayne Luk**.
+
+---
+
+## License
+
+This project is released under the MIT License. See [`LICENSE`](LICENSE) for details.
+````
