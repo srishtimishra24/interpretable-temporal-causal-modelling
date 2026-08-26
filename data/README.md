@@ -1,17 +1,24 @@
-# Datasets
-
-The datasets used in this project are not distributed with this repository.
-
-They originate from the benchmark datasets used in:
-
-> Case Studies of Causal Discovery in IT Monitoring Time Series
+## Directory Structure
 
 Create the following directory structure:
 
+```text
 data/
 ├── Antivirus_Activity/
+│   ├── combined.csv
+│   └── structure.txt
+│
 ├── Web_Activity/
+│   ├── combined.csv
+│   └── structure.txt
+│
 ├── Middleware_oriented_message_Activity/
+│   ├── combined.csv
+│   └── structure.txt
+│
 └── Storm_Ingestion_Activity/
+    ├── storm_data_normal.csv
+    └── storm_structure.txt
+```
 
-and place the corresponding CSV files and ground-truth structure files in each directory.
+Place the corresponding dataset files and ground-truth structure files in each directory.
